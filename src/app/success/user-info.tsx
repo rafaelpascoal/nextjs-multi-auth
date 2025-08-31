@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { FaSignOutAlt } from "react-icons/fa"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 
 export default function UserInfo() {
   const { data: session, status } = useSession()
@@ -28,8 +30,11 @@ export default function UserInfo() {
   // If the user session is found, return the user info
   return (
     // User info container
-    <div className="p-6 border rounded-lg shadow space-y-4">
-      <h1 className="text-xl font-semibold text-center">Login successful 🎉</h1>
+    <Card className="w-full max-w-md shadow-lg">
+      <CardHeader>
+        <CardTitle className="text-2xl font-semibold text-center">Login successful 🎉</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center justify-center space-y-4">
 
       {/* User name and email */}
       <p><span className="font-medium">Name:</span> {session.user.name}</p>
@@ -42,15 +47,16 @@ export default function UserInfo() {
         <img
           src={session.user.image}
           alt={session.user.name || "User"}
-          className="w-16 h-16 rounded-full mx-auto"
+          className="w-16 h-16 rounded-full mx-auto mt-4"
         />
       )}
 
       {/* Sign out button */}
-      <Button variant="outline" className="w-full" onClick={() => signOut()}>
+      <Button variant="outline" className="w-full mt-4" onClick={() => signOut()}>
         <FaSignOutAlt className="size-4 mr-2" />
         Sign out
       </Button>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

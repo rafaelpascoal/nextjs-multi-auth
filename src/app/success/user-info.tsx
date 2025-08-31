@@ -5,11 +5,14 @@ import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { FaSignOutAlt } from "react-icons/fa"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useRouter } from "next/navigation"
 
 
 export default function UserInfo() {
   const { data: session, status } = useSession()
   const [loading, setLoading] = useState(true)
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const router = useRouter()
 
   // Simulate delay to show the skeleton
   useEffect(() => {
@@ -17,8 +20,22 @@ export default function UserInfo() {
     return () => clearTimeout(timer)
   }, [])
 
-  // If the session is loading or the loading state is true, return null
-  if (status === "loading" || loading) {
+  // Handle sign out
+  const handleSignOut = async () => {
+    setIsSigningOut(true)
+    try {
+      // Sign out the user without automatic redirect
+      await signOut({ redirect: false })
+      // Manually redirect to login page
+      router.push("/login")
+    } catch (error) {
+      console.error("Error signing out:", error)
+      setIsSigningOut(false)
+    }
+  }
+
+  // If the session is loading, the loading state is true, or signing out, return null
+  if (status === "loading" || loading || isSigningOut) {
     return null // fallback is managed by the Suspense in the server
   }
 
@@ -52,9 +69,14 @@ export default function UserInfo() {
       )}
 
       {/* Sign out button */}
-      <Button variant="outline" className="w-full mt-4" onClick={() => signOut()}>
+      <Button 
+        variant="default" 
+        className="w-full mt-4" 
+        onClick={handleSignOut}
+        disabled={isSigningOut}
+      >
         <FaSignOutAlt className="size-4 mr-2" />
-        Sign out
+        {isSigningOut ? "Signing out..." : "Sign out"}
       </Button>
       </CardContent>
     </Card>

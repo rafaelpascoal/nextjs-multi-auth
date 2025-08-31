@@ -1,9 +1,12 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { CiMail} from "react-icons/ci";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
     return (
@@ -41,11 +44,11 @@ export default function LoginPage() {
 
                 {/* OAuth Buttons */}
                 <div className="grid gap-3">
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full" onClick={() => signIn("google")}>
                         <FaGoogle className="size-4 mr-2" />
                         Continue with Google
                     </Button>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full" onClick={() => signIn("github")}>
                         <FaGithub className="size-4 mr-2" />
                         Continue with GitHub
                     </Button>

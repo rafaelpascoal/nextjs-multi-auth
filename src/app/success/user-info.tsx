@@ -9,7 +9,6 @@ import { FaSignOutAlt } from "react-icons/fa"
 import { useRouter } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
-
 export default function UserInfo() {
   const { data: session, status } = useSession()
   const [isSigningOut, setIsSigningOut] = useState(false)
@@ -44,31 +43,37 @@ export default function UserInfo() {
 
       <CardContent className="w-full">
         <div className="flex flex-col items-center justify-center space-y-4 min-h-[240px] transition-all duration-300 ease-in-out">
-            {/* User name */}
-            <p><span className="font-medium">Name:</span> {session.user.name}</p>
+          {/* User name */}
+          <p><span className="font-medium">Name:</span> {session.user.name}</p>
 
-            {/* User email */}
-            <p><span className="font-medium">Email:</span> {session.user.email}</p>
+          {/* User email */}
+          <p><span className="font-medium">Email:</span> {session.user.email}</p>
 
-            {/* User image */}
-            {session.user.image ? (
-                <img src={session.user.image} alt={session.user.name || "User"} className="w-16 h-16 rounded-full mt-4" />
-            ) : (
-                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mt-4">
-                    <span className="text-gray-500 text-xs">No Image</span>
-                </div>
-            )}
+          {/* User provider */}
+          <p>
+            <span className="font-medium">Authenticated with:</span> {session.user.provider === "google" && "Google"} {session.user.provider === "github" && "GitHub"} 
+          </p>
 
-            {/* Sign out button */}
-            <Button 
-                variant="default" 
-                className="w-full mt-4" 
-                onClick={handleSignOut}
-                disabled={isSigningOut}
-            >
-                <FaSignOutAlt className="size-4 mr-2" />
-                {isSigningOut ? "Signing out..." : "Sign out"}
-            </Button>
+
+          {/* User image */}
+          {session.user.image ? (
+            <img src={session.user.image} alt={session.user.name || "User"} className="w-16 h-16 rounded-full mt-4" />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mt-4">
+              <span className="text-gray-500 text-xs">No Image</span>
+            </div>
+          )}
+
+          {/* Sign out button */}
+          <Button
+            variant="default"
+            className="w-full mt-4"
+            onClick={handleSignOut}
+            disabled={isSigningOut}
+          >
+            <FaSignOutAlt className="size-4 mr-2" />
+            {isSigningOut ? "Signing out..." : "Sign out"}
+          </Button>
         </div>
       </CardContent>
     </Card>

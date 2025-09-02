@@ -17,14 +17,25 @@ export const authOptions = {
     ],
     pages: {
         signIn: "/login", // Redirect to login page after authentication
-        signOut: "/login", // Redirect to login page after sign out
     },
     callbacks: {
-        async redirect() { 
-            return "/success"; // Redirect to success page after authentication
+        async redirect() {
+            return "/success"
+        },
+        async jwt({ token, account }: { token: any; account: any }) {
+            // Add provider to token on login
+            if (account) {
+                token.provider = account.provider
+            }
+            return token
+        },
+        async session({ session, token }: { session: any; token: any }) {
+            // pass provider to session
+            session.user.provider = token.provider as string
+            return session
         },
     },
-};
+}
 
 const handler = NextAuth(authOptions);
 

@@ -1,7 +1,7 @@
 // app/success/page.tsx
 
 import { Suspense } from "react"                                     
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"  
+import { Card, CardContent } from "@/components/ui/card"  
 import { Skeleton } from "@/components/ui/skeleton"                  
 import UserInfo from "./user-info"                                   
 
@@ -37,6 +37,9 @@ function SuccessSkeleton() {
       <Skeleton className="h-6 w-48 mt-10" />
       
       {/* Email skeleton */}
+      <Skeleton className="h-6 w-56" />
+
+      {/* Provider skeleton */}
       <Skeleton className="h-6 w-56" />
       
       {/* User image skeleton */}

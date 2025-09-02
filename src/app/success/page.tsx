@@ -1,25 +1,48 @@
-import { Suspense } from "react"
-import UserInfo from "@/app/success/user-info"
-import { Skeleton } from "@/components/ui/skeleton"
+// app/success/page.tsx
 
-export default function SuccessPage() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md">
-        <Suspense fallback={<SuccessSkeleton />}>
-          <UserInfo />
-        </Suspense>
-      </div>
+import { Suspense } from "react"                                     
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"  
+import { Skeleton } from "@/components/ui/skeleton"                  
+import UserInfo from "./user-info"                                   
+
+export default function SuccessPage() {                             
+  return (                                                           
+    <div className="flex items-center justify-center min-h-screen bg-muted/40">
+      <Card className="w-full max-w-md shadow-lg">                  
+        <CardContent className="w-full">                                               
+          <Suspense fallback={<SuccessSkeleton />}>                  
+            <UserSection />                                         
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   )
 }
 
-function SuccessSkeleton() {
-  return (
-    <div className="space-y-4 p-6 border rounded-lg shadow">
-      <Skeleton className="h-6 w-1/2" />
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-4 w-1/3" />
+// 
+async function UserSection() {                                      
+  await new Promise((r) => setTimeout(r, 1000))                       
+  return <UserInfo />                                               
+}
+
+function SuccessSkeleton() {                                        
+  return (                                                          
+    <div className="flex flex-col items-center justify-center space-y-4 min-h-[240px] transition-all duration-300 ease-in-out">
+
+      {/* Title skeleton */}  
+      <Skeleton className="h-15 w-56" />
+      
+      {/* Name skeleton */}
+      <Skeleton className="h-6 w-48 mt-10" />
+      
+      {/* Email skeleton */}
+      <Skeleton className="h-6 w-56" />
+      
+      {/* User image skeleton */}
+      <Skeleton className="w-16 h-16 rounded-full mt-4" />
+      
+      {/* Sign out button skeleton */}
+      <Skeleton className="h-9 w-full mt-4" />
     </div>
   )
 }

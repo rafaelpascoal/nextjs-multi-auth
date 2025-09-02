@@ -2,32 +2,25 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { FaSignOutAlt } from "react-icons/fa"
-
 import { useRouter } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
 
 export default function UserInfo() {
   const { data: session, status } = useSession()
-  const [loading, setLoading] = useState(true)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const router = useRouter()
-
-  // Remove the additional client-side delay to avoid double loading
-  useEffect(() => {
-    setLoading(false)
-  }, [])
 
   const handleSignOut = async () => {
     setIsSigningOut(true)
     try {
       // Sign out the user without automatic redirect
       await signOut({ redirect: false })
-      // Manually redirect to login page
+      // Manually redirect to loading page which will show skeleton and then login
       router.push("/login")
     } catch (error) {
       console.error("Error signing out:", error)
@@ -35,8 +28,8 @@ export default function UserInfo() {
     }
   }
 
-  if (status === "loading" || loading || isSigningOut) {
-    return null // fallback is managed by the Suspense in the server
+  if (status === "loading" || isSigningOut) {
+    return null
   }
 
   if (!session?.user) {

@@ -17,6 +17,7 @@ export const authOptions = {
     ],
     pages: {
         signIn: "/login", // Redirect to login page after authentication
+        signOut: "/login", // Redirect to login page after sign out
     },
     callbacks: {
         async redirect() { 

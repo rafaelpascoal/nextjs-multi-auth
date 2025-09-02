@@ -19,12 +19,13 @@ export default function SuccessPage() {
   )
 }
 
-// 
+// UserSection component - This is the component that will be used to display the user information
 async function UserSection() {                                      
   await new Promise((r) => setTimeout(r, 1000))                       
   return <UserInfo />                                               
 }
 
+// SuccessSkeleton component - This is the component that will be used to display the loading skeleton
 function SuccessSkeleton() {                                        
   return (                                                          
     <div className="flex flex-col items-center justify-center space-y-4 min-h-[240px] transition-all duration-300 ease-in-out">
